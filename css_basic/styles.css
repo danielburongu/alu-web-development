@@ -1,0 +1,26 @@
+/* Body section in the style.css */
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main section in the style.css*/
+main {
+    display: flex;
+    flex-direction: row;
+    height: auto;
+    width: auto;
+    flex: auto;
+}
+
+/* Article section in the style.css*/
+article {
+    flex: 3;
+    overflow-y: auto;
+}
+
+/* Aside section in the style.css*/
+aside {
+    flex: 2;
+    overflow-y: auto;
+}
