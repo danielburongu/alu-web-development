@@ -34,6 +34,4 @@ class DB:
         session = self._session
         session.add(new_user)
         session.commit()
-
-        # Retrieve the newly created user from the session to ensure it has been added correctly
-        return session.query(User).filter_by(email=email).first()
+        return new_user
