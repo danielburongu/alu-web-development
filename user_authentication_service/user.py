@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+"""
+This module contains the definition of the User model.
+The User model includes attributes for email, hashed password,
+session ID, and reset token, and provides methods for hashing
+and verifying passwords using bcrypt.
+"""
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 import bcrypt
