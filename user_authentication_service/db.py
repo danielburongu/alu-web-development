@@ -4,6 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from user import Base, User
 
+
 class DB:
     def __init__(self):
         self._engine = create_engine("sqlite:///a.db", echo=True)
