@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
+""" db class """
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from user import Base, User
+from sqlalchemy.exc import InvalidRequestError
 
 
 class DB:
+    """ DB class """
+
     def __init__(self):
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+        self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
@@ -20,18 +25,27 @@ class DB:
         return self.__session
 
     def add_user(self, email: str, hashed_password: str) -> User:
-        """
-        Adds a new user to the database.
+        """ add user method """
+        user = User(email=email, hashed_password=hashed_password)
+        self._session.add(user)
+        self._session.commit()
+        return user
 
-        Args:
-            email (str): The email of the new user.
-            hashed_password (str): The hashed password of the new user.
+    def find_user_by(self, **kwargs) -> User:
+        """ DB.find_user_by method"""
+        if not kwargs:
+            raise InvalidRequestError
+        for key in kwargs:
+            if not hasattr(User, key):
+                raise InvalidRequestError
+        return self._session.query(User).filter_by(**kwargs).one()
 
-        Returns:
-            User: The created user object.
-        """
-        new_user = User(email=email, hashed_password=hashed_password)
-        session = self._session
-        session.add(new_user)
-        session.commit()
-        return new_user
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """ DB.update_user method """
+        user = self.find_user_by(id=user_id)
+        for key, value in kwargs.items():
+            if not hasattr(user, key):
+                raise ValueError
+            setattr(user, key, value)
+        self._session.commit()
+        return None

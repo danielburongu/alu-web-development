@@ -2,20 +2,13 @@
 """
 Main file
 """
+from auth import Auth
 
-from db import DB
-from user import User
+email = 'alice@example.com'
+password = 'AlicePwd123'
+auth = Auth()
 
-# Print User model details
-print(User.__tablename__)
-for column in User.__table__.columns:
-    print("{}: {}".format(column, column.type))
+auth.register_user(email, password)
 
-# Initialize DB and add users
-my_db = DB()
-
-user_1 = my_db.add_user("test@test.com", "SuperHashedPwd")
-print(user_1.id)
-
-user_2 = my_db.add_user("test1@test.com", "SuperHashedPwd1")
-print(user_2.id)
+print(auth.create_session(email))
+print(auth.create_session("kampala@email.com"))
